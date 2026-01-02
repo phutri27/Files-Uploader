@@ -1,0 +1,42 @@
+const {body} = require('express-validator')
+const { Value } = require('sass')
+const {UserObj} = require('../model/queries')
+
+const emptyErr = "must not be empty"
+const alphaErr = "must only be letters"
+
+exports.validateSignup = [
+    body("username").trim()
+    .notEmpty().withMessage(`Username ${emptyErr}`)
+    .isLength({min: 6, max: 25}).withMessage("Username must be between 6 and 25 characters")
+    .custom(async (value, {req}) => {
+        const username = await UserObj.findUser(value)
+        if (username){
+            throw new Error("Username has been taken")
+        }
+        return true
+    }),
+    body("password")
+    .notEmpty().withMessage(`Password ${emptyErr}`)
+    .isLength({min: 6, max: 50}).withMessage("Password must be between 6 and 50 characters"),
+    body("retype")
+    .custom((value, {req}) => {
+        if (value !== req.body.password){
+            throw new Error("Password does not match")
+        }
+        return true
+    }),
+    body("first_name").trim()
+    .isLength({min: 1, max: 25}).withMessage("First name must have length between 1 and 25 characters")
+    .bail()
+    .isAlpha('en-US', {ignore: '\\s'}).withMessage(`First name ${alphaErr}`),
+    body("last_name").trim()
+    .isLength({min: 1, max: 25}).withMessage("Last name must have length between 1 and 25 characters")
+    .bail()
+    .isAlpha('en-US', {ignore: '\\s'}).withMessage(`Last name ${alphaErr}`),
+]
+
+exports.validateFolder = [
+    body("folderName").trim()
+    .notEmpty().withMessage(`Folder name ${emptyErr}`)
+]

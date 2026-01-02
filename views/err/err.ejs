@@ -1,0 +1,7 @@
+<ul>
+    <% errors.forEach(function(err) { %>
+        <% if (err.msg.includes(keyword)) { %>
+            <li><%= err.msg %></li>
+        <% } %>
+    <% }); %>
+</ul>   

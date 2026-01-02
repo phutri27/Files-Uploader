@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up</title>
+</head>
+<body>
+    <form action="/signup" method="post">
+        <div>
+            <% if (locals.errors && unameErr) { %>
+                <%- include("err/err.ejs", {keyword: unameErr}) %>
+            <% } %>
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" value="<%= uname %>">
+        </div>
+        <div>
+            <% if (locals.errors && fnameErr) { %>
+                <%- include("err/err.ejs", {keyword: fnameErr}) %>
+            <% } %>
+            <label for="first_name">First Name</label>
+            <input type="text" name="first_name" id="first_name" value="<%= fname %>">
+        </div>
+        <div>
+            <% if (locals.errors && lnameErr) { %>
+                <%- include("err/err.ejs", {keyword: lnameErr}) %>
+            <% } %>
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" id="last_name" value="<%= lname %>">
+        </div>
+        <div>
+            <% if (locals.errors && pwErr) { %>
+                <%- include("err/err.ejs", {keyword: pwErr}) %>
+            <% } %>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" value="<%= pw %>">
+        </div>
+        <div>
+            <% if (locals.errors && rtErr) { %>
+                <%- include("err/err.ejs", {keyword: rtErr}) %>
+            <% } %>
+            <label for="retype">Confirm Password</label>
+            <input type="password" name="retype" id="retype" value="<%= rt %>">
+        </div>
+        <button type="submit">Sign Up</button>
+    </form>
+</body>
+</html>
