@@ -22,7 +22,6 @@ function folderController(){
             req.session.current = currentFolder
             const path = url.join("/")
             const folders = await folderObj.selectAllFolders(currentFolder.id, userId)
-
             const editId = req.query.editId ? Number(req.query.editId) : null
             const originalUrl = req.originalUrl.split("?")
             const data = req.session.folderData || {}
@@ -31,7 +30,7 @@ function folderController(){
                 user: req.user,
                 title: currentFolder.name,
                 folderpath: originalUrl[0],
-                exactPath: path,
+                exactPath: url,
                 errors: data.errors || [],
                 errMsg: "Folder",
                 folders: folders,
