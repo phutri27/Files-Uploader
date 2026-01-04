@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <% if (locals.user) { %>
+        <% if (title === "Dashboard") { %>
+            <p>Welcome, <%= user.firstName %> <%= user.lastName %></p>
+        <% } else { %>
+            <div></div>
+        <% } %>
+        <button class="folder-btn">Create folder</button>
+        <button class="file-btn">Upload File</button>
+        <dialog class="folder-dialog">
+            <form action="<%= folderpath %>" method="post">
+                <% if (locals.errors) { %>
+                    <%- include("err/err.ejs", {keyword: errMsg}) %>
+                <% } %>
+                <label for="folder">Folder Name</label>
+                <input type="text" name="folder" id="folder">
+                <button type="submit" >Create folder</button>
+                <button type="button" class="cls-btn">Close</button>
+            </form>
+        </dialog>
+        <p><%= exactPath %></p>
+            <% if (locals.folders) { %>
+                <% folders.forEach((folder) => { %>
+                    <% if (locals.editId === folder.id) { %>
+                        <form action="/dashboard/<%= folder.id %>/update" method="post">
+                            <% if (locals.errors) { %>
+                                <%- include("err/err.ejs", {keyword: errMsg}) %>
+                            <% } %>
+                            <label for="">Folder's name</label>
+                            <input type="text" name="folder" id="folder" value="<%= folder.name %>">
+                            <button type="submit">Save</button>
+                            <a href="<%= folderpath %>">Cancel</a>
+                        </form>
+                    <% } else { %>
+                        <div>
+                            <%- include("links/link", {connect: `${folderpath}/${folder.name}`, link: folder.name}) %>
+                            <form action="/dashboard/<%= folder.id %>/delete" method="post">
+                                <button type="submit">Delete</button>
+                            </form>
+                            <form action="/dashboard/<%= folder.id %>/update" method="get">
+                                <button type="submit">Update</button>
+                            </form>
+                        </div>
+                    <% } %> 
+                <% }) %>
+        <% } %> 
+    <% } %>
+    <script>
+        const folderBtn = document.querySelector(".folder-btn")
+        const dialog1 = document.querySelector(".folder-dialog")
+        const clsBtn1 = document.querySelector(".cls-btn")
+
+        folderBtn.addEventListener("click",() => {
+            dialog1.showModal()
+        })
+
+        clsBtn1.addEventListener('click', (e) => {
+            e.preventDefault()
+            dialog1.close()
+        })
+
+    </script>
+</body>
+</html>

@@ -24,11 +24,15 @@ model User {
 
 model Folder{
   id Int @id @default(autoincrement())
-  name String @unique
+  name String 
   user User @relation(fields: [userId], references: [id])
   userId Int
-  parentFolderId Int @default(0)
+  folder Folder? @relation("parent",fields: [parentId], references: [id])
+  parentId Int?
   files File[]
+  parent Folder[] @relation("parent")
+
+  @@unique([userId, parentId, name])
 }
 
 model File {

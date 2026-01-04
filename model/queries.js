@@ -1,3 +1,4 @@
+const { Connection } = require('pg')
 const prisma = require('../lib/prisma')
 
 class User{
@@ -11,7 +12,12 @@ class User{
                 username: username,
                 firstName: firstName,
                 lastName: lastName,
-                password: password
+                password: password,
+                folders: {
+                    create: {
+                        name: "dashboard",
+                    }
+                }
             }
         })
     }
@@ -32,18 +38,81 @@ class Folder{
 
     }
 
-    async insertFolder(folderName, userId){
+    async insertFolder(folderName, userId, parentId){
         const folder = await prisma.folder.create({
             data:{
                 name: folderName,
-                userId: userId
+                userId: userId,
+                parentId: parentId
             }
         })
     }
 
-    async selectAllFolders(){
-        const folders = await prisma.folder.findMany()
+    async findFolderByUserId(userId){
+        const folderId = await prisma.folder.findMany({
+            where: {
+                AND : [{userId: userId}, {name: "dashboard"}]
+            },
+            select: {id:true}
+        })
+        return folderId
+    }
+
+    async selectAllFolders(parentId, userId){
+        const folders = await prisma.folder.findMany({
+            where:{
+                AND: [
+                    {parentId: parentId},
+                    {userId: userId},    
+                ]
+            }
+        })
         return folders
+    }
+
+    async findTreeFolder(userId, parentId, name){
+        const folder = await prisma.folder.findUnique({
+            where: {
+                userId_parentId_name: {userId, parentId, name}
+            },
+            select: {
+                id: true,
+                name: true,
+                parentId: true
+            }
+        })
+        return folder
+    }
+
+    async selectFoldersById(folderId){
+        const path = await prisma.folder.findUnique({
+            where:{
+                id: folderId
+            },
+            select: {
+                name:true
+            }
+        })
+        return
+    }
+
+    async deleteFolderById(folderId){
+        await prisma.folder.delete({
+            where:{
+                id:folderId
+            }
+        })
+    }
+
+    async updateFolderById(folderId, newName){
+        await prisma.folder.update({
+            where: {
+                id: folderId
+            },
+            data:{
+                name: newName
+            }
+        })
     }
 }
 

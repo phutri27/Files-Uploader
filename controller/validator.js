@@ -1,6 +1,6 @@
 const {body} = require('express-validator')
 const { Value } = require('sass')
-const {UserObj} = require('../model/queries')
+const {UserObj, folderObj} = require('../model/queries')
 
 const emptyErr = "must not be empty"
 const alphaErr = "must only be letters"
@@ -37,6 +37,16 @@ exports.validateSignup = [
 ]
 
 exports.validateFolder = [
-    body("folderName").trim()
+    body("folder").trim()
     .notEmpty().withMessage(`Folder name ${emptyErr}`)
+    .custom(async (value, {req}) => {
+        const folder = await folderObj.findTreeFolder(req.user.id, req.session.dataId, value)
+        const val = value
+        const r = req
+        if (folder){
+            throw new Error("Folder name has been taken")
+        }
+        return true
+    })
 ]
+
