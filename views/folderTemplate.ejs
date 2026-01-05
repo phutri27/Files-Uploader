@@ -13,10 +13,16 @@
             <div></div>
         <% } %>
         <button class="folder-btn">Create folder</button>
-        <form action="/profile" method="post" enctype="multipart/form-data">
-            <input type="file" name="fileName" id="fileName" style="display: none;"/>
-            <label for="fileName" id="fileName">Add Files</label>
-        </form>
+        <div>
+            <form action="/dashboard/uploadFile" method="post" enctype="multipart/form-data">
+                <input type="file" name="fileName" id="fileName"/>
+                <label for="fileName" id="fileName">Add Files</label>
+                <button type="submit">Add</button>
+                <% if (locals.fileErr) { %>
+                    <%- include("err/err.ejs" ,{keyword: errFileMsg}) %>
+                <% } %>
+            </form>
+        </div>
         <dialog class="folder-dialog">
             <form action="<%= folderpath %>" method="post">
                 <% if (locals.errors) { %>
@@ -28,13 +34,15 @@
                 <button type="button" class="cls-btn">Close</button>
             </form>
         </dialog>
-        <div>
+        <div class="test-class" style="display: flex;">
             <% let fullPath = "/dashboard" %>
             <% exactPath.forEach((path) => { %>
                 <% fullPath += "/" + encodeURIComponent(path) %>
                 <%- include("links/link", {connect: fullPath, link: path}) %>
+                <div>/</div>
             <% }) %>
         </div>
+        <div>
             <% if (locals.folders) { %>
                 <% folders.forEach((folder) => { %>
                     <% if (locals.editId === folder.id) { %>
@@ -60,6 +68,20 @@
                     <% } %> 
                 <% }) %>
         <% } %> 
+            <% if (locals.files) { %>
+                <% files.forEach((file) => { %>
+                    <div>
+                        <p><%= file.fileName %> <span><%= file.fileSize %></span></p>
+                        <form action="/dashboard/<%= file.id %>/deleteFile" method="post">
+                            <button type="submit">Delete</button>
+                        </form>
+                        <form action="/dashboard/<%= file.fileUrl %>/<%= file.fileName %>/download" method="get">
+                            <button type="submit">Download</button>
+                        </form>
+                    </div>
+                <% }) %>
+            <% } %>
+    </div>
     <% } %>
     <script>
         const folderBtn = document.querySelector(".folder-btn")

@@ -39,8 +39,9 @@ model File {
   id       Int      @id @default(autoincrement())
   fileName String
   fileSize Float
-  folder  Folder @relation(fields: [folderId], references: [id])
+  folder  Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
   folderId Int
+  fileUrl String
 }
 
 model Session {

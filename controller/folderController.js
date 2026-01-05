@@ -1,5 +1,5 @@
 const {matchedData, validationResult} = require('express-validator')
-const {UserObj, folderObj} = require('../model/queries')
+const {UserObj, folderObj, fileObj} = require('../model/queries')
 const {validateFolder, validateInner} = require('./validator')
 const prisma = require('../lib/prisma')
 
@@ -12,7 +12,7 @@ function folderController(){
             const userId = req.user.id
             let root = await folderObj.findFolderByUserId(userId)
 
-            let parentId = root[0].id
+            let parentId = root.id
             let currentFolder = null
 
             for (const name of url){
@@ -22,6 +22,7 @@ function folderController(){
             req.session.current = currentFolder
             const path = url.join("/")
             const folders = await folderObj.selectAllFolders(currentFolder.id, userId)
+            const files = await fileObj.selectAllFiles(currentFolder.id)
             const editId = req.query.editId ? Number(req.query.editId) : null
             const originalUrl = req.originalUrl.split("?")
             const data = req.session.folderData || {}
@@ -33,7 +34,10 @@ function folderController(){
                 exactPath: url,
                 errors: data.errors || [],
                 errMsg: "Folder",
+                errFileMsg: data.errFileMsg || "",
                 folders: folders,
+                fileErr: data.fileErr || [],
+                files: files,
                 editId: editId,
             })
         } catch (error) {

@@ -1,5 +1,5 @@
 <ul>
-    <% errors.forEach(function(err) { %>
+    <% errors.forEach((err) => { %>
         <% if (err.msg.includes(keyword)) { %>
             <li><%= err.msg %></li>
         <% } %>

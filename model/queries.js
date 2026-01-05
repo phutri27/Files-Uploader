@@ -49,11 +49,15 @@ class Folder{
     }
 
     async findFolderByUserId(userId){
-        const folderId = await prisma.folder.findMany({
+        const folderId = await prisma.folder.findFirst({
             where: {
                 AND : [{userId: userId}, {name: "dashboard"}]
             },
-            select: {id:true}
+            select: 
+            {id:true,
+            name:true,
+            parentId:true
+            }
         })
         return folderId
     }
@@ -116,9 +120,51 @@ class Folder{
     }
 }
 
+class File{
+    constructor(){
+
+    }
+
+    async createFile(name, size, folderId, url){
+        await prisma.file.create({
+            data:{
+                fileName:name,
+                fileSize:size,
+                folderId: folderId,
+                fileUrl: url
+            }
+        })
+    }
+
+    async selectAllFiles(folderId){
+        const files = await prisma.file.findMany({
+            where:{
+                folderId:folderId,
+            },
+            select: {
+                id: true,
+                fileName: true,
+                fileSize: true,
+                fileUrl: true,
+            }
+        })
+        return files
+    }
+
+    async deleteFile(fileId){
+        await prisma.file.delete({
+            where:{
+                id:fileId
+            }
+        })
+    }
+}
+
 const UserObj = new User()
 const folderObj = new Folder()
+const fileObj = new File()
 module.exports = {
     UserObj,
-    folderObj
+    folderObj,
+    fileObj
 }

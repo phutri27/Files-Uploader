@@ -1,6 +1,7 @@
 const {body} = require('express-validator')
 const { Value } = require('sass')
 const {UserObj, folderObj} = require('../model/queries')
+const { empty } = require('@prisma/client/runtime/client')
 
 const emptyErr = "must not be empty"
 const alphaErr = "must only be letters"
@@ -50,3 +51,15 @@ exports.validateFolder = [
     })
 ]
 
+exports.validateFile = [
+    body("fileName")
+    .custom((value, {req}) => {
+        if (!req.file){
+            throw new Error(`File ${emptyErr}`)
+        }
+        if  (req.file.size > 20 * 1024 * 1024){
+            throw new Error("File too large (max 20MB)")
+        }
+        return true
+    })
+]
