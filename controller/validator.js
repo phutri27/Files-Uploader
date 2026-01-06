@@ -1,14 +1,13 @@
 const {body} = require('express-validator')
-const { Value } = require('sass')
 const {UserObj, folderObj} = require('../model/queries')
-const { empty } = require('@prisma/client/runtime/client')
 
 const emptyErr = "must not be empty"
 const alphaErr = "must only be letters"
 
 exports.validateSignup = [
-    body("username").trim()
+    body("username").trim() 
     .notEmpty().withMessage(`Username ${emptyErr}`)
+    .bail()
     .isLength({min: 6, max: 25}).withMessage("Username must be between 6 and 25 characters")
     .custom(async (value, {req}) => {
         const username = await UserObj.findUser(value)
@@ -41,7 +40,7 @@ exports.validateFolder = [
     body("folder").trim()
     .notEmpty().withMessage(`Folder name ${emptyErr}`)
     .custom(async (value, {req}) => {
-        const folder = await folderObj.findTreeFolder(req.user.id, req.session.dataId, value)
+        const folder = await folderObj.findTreeFolder(req.user.id, req.session.current.id, value)
         const val = value
         const r = req
         if (folder){

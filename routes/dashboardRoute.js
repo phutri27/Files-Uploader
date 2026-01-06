@@ -4,20 +4,24 @@ const {dashboardController} = require('../controller/dashboardController')
 const {folderController} = require('../controller/folderController') 
 const {upload, fileController} = require('../controller/fileController')
 
-dashboardRouter.get("/", dashboardController().dashboardGet)
+const dashboard = dashboardController()
+const file = fileController()
+const folder = folderController()
+dashboardRouter.get("/", dashboard.dashboardGet)
 
-dashboardRouter.post("/", dashboardController().dashboardPost)
+dashboardRouter.post("/", dashboard.dashboardPost)
 
-dashboardRouter.post("/:id/delete", folderController().deleteFolder)
-dashboardRouter.post("/:id/deleteFile", fileController().deleteFile)
+dashboardRouter.post("/:id/delete", folder.deleteFolder)
+dashboardRouter.post("/:id/:url/:name/deleteFile", file.deleteFile)
 
-dashboardRouter.get("/:idUpdate/update", folderController().updateFolderGet)
-dashboardRouter.post("/:idUpdate/update", folderController().updateFolderPost)
+dashboardRouter.get("/:idUpdate/update", folder.updateFolderGet)
+dashboardRouter.post("/:idUpdate/update", folder.updateFolderPost)
 
-dashboardRouter.post("/uploadFile", upload.single('fileName'), fileController().addFile)
-dashboardRouter.get("/:url/:name/download", fileController().downloadFile)
+dashboardRouter.post("/uploadFile", upload.single('fileName'), file.addFile)
+dashboardRouter.get("/:url/:name/download", file.downloadFile)
+dashboardRouter.post("/:url/:name/share", file.shareFile)
 
-dashboardRouter.get("/{*splat}", folderController().folderGet)
-dashboardRouter.post("/{*splat}", folderController().folderPost)
+dashboardRouter.get("/{*splat}", folder.folderGet)
+dashboardRouter.post("/{*splat}", folder.folderPost)
 
 module.exports = dashboardRouter

@@ -3,35 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/signup.css">
     <title>Sign-Up</title>
 </head>
 <body>
+    <div class="header">
+        <%- include('links/link', {connect:'/', link: "Home"}) %>
+    </div>
     <form action="/signup" method="post">
-        <div>
-            <% if (locals.errors && unameErr) { %>
+        <% if (locals.errors && unameErr) { %>
                 <%- include("err/err.ejs", {keyword: unameErr}) %>
-            <% } %>
+        <% } %>
+        <div>
             <label for="username">Username</label>
             <input type="text" name="username" id="username" value="<%= uname %>">
         </div>
-        <div>
             <% if (locals.errors && fnameErr) { %>
                 <%- include("err/err.ejs", {keyword: fnameErr}) %>
             <% } %>
+        <div>
             <label for="first_name">First Name</label>
             <input type="text" name="first_name" id="first_name" value="<%= fname %>">
         </div>
-        <div>
             <% if (locals.errors && lnameErr) { %>
                 <%- include("err/err.ejs", {keyword: lnameErr}) %>
             <% } %>
+        <div>
             <label for="last_name">Last Name</label>
             <input type="text" name="last_name" id="last_name" value="<%= lname %>">
         </div>
-        <div>
             <% if (locals.errors && pwErr) { %>
                 <%- include("err/err.ejs", {keyword: pwErr}) %>
             <% } %>
+        <div>
             <label for="password">Password</label>
             <input type="password" name="password" id="password" value="<%= pw %>">
         </div>

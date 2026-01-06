@@ -151,6 +151,18 @@ class File{
         return files
     }
 
+    async selectFile(id){
+        const file = await prisma.file.findUnique({
+            where: {
+                id: id
+            },
+            select: {
+                fileUrl: true
+            }
+        })
+        return file
+    }
+
     async deleteFile(fileId){
         await prisma.file.delete({
             where:{

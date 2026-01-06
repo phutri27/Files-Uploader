@@ -54,7 +54,7 @@ function signupController(){
             unameErr: data.unameErr,
             fnameErr: data.fnameErr,
             lnameErr: data.lnameErr,
-            pwErr: data.pwErr,
+            pwErr: data.pwErr,  
             rtErr: data.rtErr,
             uname: data.uname || "",
             fname: data.fname || "",
@@ -98,8 +98,18 @@ function signupController(){
     }
 }
 
+const logout = (req, res, next) => {
+    req.logout((err) => {
+        if (err){
+            return next(err)
+        }
+        return res.redirect("/")
+    })
+}
+
 module.exports ={
     indexController,
     loginController,
-    signupController
+    signupController, 
+    logout
 }

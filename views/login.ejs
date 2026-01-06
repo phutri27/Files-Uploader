@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/login.css">
     <title>Login</title>
 </head>
 <body>
-    <div>
-        <% if (errors) { %>
-            <p><%= errors %></p>
-        <% } %>
+    <div class="container">
+        <form action="/login" method="post">
+            <% if (errors) { %>
+                <div class="err-div">
+                    <p><%= errors %></p>
+                </div>
+            <% } %>
+            <div class="input-div">
+                <label for="username">Username</label>
+                <input type="text" id="uname" name="uname" value="<%= un %>">
+            </div>
+            <div class="input-div">
+                <label for="password">Password</label>
+                <input type="password" id="pw" name="pw" value="<%= pww %>">
+            </div>
+            <div class="btn-div">
+                <button type="submit">Login</button>
+            </div>
+        </form>
     </div>
-    <form action="/login" method="post">
-        <label for="username">Username</label>
-        <input type="text" id="uname" name="uname" value="<%= un %>">
-        <label for="password">Password</label>
-        <input type="password" id="pw" name="pw" value="<%= pww %>">
-        <label for="retype">Confirm Password</label>
-        <button type="submit">Login</button>
-    </form>
 </body>
 </html>

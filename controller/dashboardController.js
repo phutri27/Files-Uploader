@@ -12,7 +12,6 @@ function dashboardController(){
         const data = req.session.folderData || {}
         req.session.folderData = null
         req.session.current = id
-        req.session.dataId = id.id
         const url = req.originalUrl.split("?")
         const editId = req.query.editId ? Number(req.query.editId) : null
         res.status(data.status || 200 ).render("folderTemplate", {
@@ -27,7 +26,8 @@ function dashboardController(){
             editId: editId,
             err: data.err || [],
             folderpath: url[0],
-            exactPath: url
+            exactPath: ["dashboard"],
+            share: data.share || null
         })
     }
     //controller cho post dashboard
@@ -45,7 +45,7 @@ function dashboardController(){
             }
             const {folder} = matchedData(req)
             const id = await folderObj.findFolderByUserId(req.user.id)
-            await folderObj.insertFolder(folder, req.user.id, id[0].id)
+            await folderObj.insertFolder(folder, req.user.id, id.id)
             return res.redirect("/dashboard")
         }
     ]

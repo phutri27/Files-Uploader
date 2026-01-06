@@ -1,15 +1,14 @@
 const path = require("node:path");
-const { Pool } = require("pg");
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
-const LocalStrategy = require('passport-local').Strategy;
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const prisma = require('./lib/prisma')
 const assetsPath = path.join(__dirname, "public")
 const index = require('./routes/index')
 const dashboardRoute = require('./routes/dashboardRoute')
 const flash = require('connect-flash')
+const {isAuth, redirectLogin} = require('./utils/isAuth')
 
 require('dotenv').config()
 require('./model/passport')
@@ -44,8 +43,13 @@ app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session()) 
 
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  next();
+});
+
 app.use("/", index)
-app.use("/dashboard", dashboardRoute)
+app.use("/dashboard", isAuth, dashboardRoute)
 app.listen(3000, (error) => {
   if (error) {
     throw error;

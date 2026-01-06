@@ -19,8 +19,8 @@ function folderController(){
                 currentFolder = await folderObj.findTreeFolder(userId, parentId, name)
                 parentId = currentFolder.id
             }
+            url.unshift('dashboard')
             req.session.current = currentFolder
-            const path = url.join("/")
             const folders = await folderObj.selectAllFolders(currentFolder.id, userId)
             const files = await fileObj.selectAllFiles(currentFolder.id)
             const editId = req.query.editId ? Number(req.query.editId) : null
@@ -39,6 +39,7 @@ function folderController(){
                 fileErr: data.fileErr || [],
                 files: files,
                 editId: editId,
+                share: data.share || null
             })
         } catch (error) {
             
