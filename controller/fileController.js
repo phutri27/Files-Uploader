@@ -11,14 +11,19 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-const uploadFile = async (filePath, fileName) => {
-  const result = fileName.split(".")
-  const filetype = result[1].toLowerCase()
+const specifyFileType =  (filetype) => {
   let type = "raw"
   const imageType = ["jpg", "jpeg", "png", "gif", "webp"]
   const videoType = ["mp4", "mov", "wav"]
   if (imageType.includes(filetype)) type = "image"
   if (videoType.includes(filetype)) type = "video"
+  return type
+}
+
+const uploadFile = async (filePath, fileName) => {
+  const result = fileName.split(".")
+  const filetype = result[1].toLowerCase()
+  const type = specifyFileType(filetype)
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(filePath, {
       resource_type: type
@@ -52,32 +57,54 @@ function fileController(){
 
   const deleteFile = async(req, res) => {
     const id = Number(req.params.id)
+    const url = req.params.url
+    const custom = req.params.name.split(".")
+    
+    const filetype = custom[1].toLowerCase()
+
+    const file = await fileObj.selectFile(id)
     await fileObj.deleteFile(id)
+
+    const tailType = specifyFileType(filetype)
+
+    cloudinary.uploader.destroy(file.fileUrl, {resource_type: tailType})
+    .then(result => console.log(result))
+
     res.redirect(req.header("Referer"))
   }
 
-  const downloadFile = async(req, res) => {
+  const downloadAndShare = (req, res) => {
     const url = req.params.url
     const custom = req.params.name.split(".")
-    let type = "raw"
+
     const filetype = custom[1].toLowerCase()
-    const imageType = ["jpg", "jpeg", "png", "gif", "webp"]
-    const videoType = ["mp4", "mov", "wav"]
-    if (imageType.includes(filetype)) type = "image"
-    if (videoType.includes(filetype)) type = "video"
+    const type = specifyFileType(filetype)
+
     const downloadUrl = cloudinary.url(url, {
       flags: "attachment",
       resource_type: type
     })
+    return downloadUrl
+  }
 
+  const downloadFile = async(req, res) => {
+    const downloadUrl = downloadAndShare(req, res)
     res.redirect(downloadUrl)
+  }
 
+  const shareFile = async (req, res) => {
+    const downloadUrl = downloadAndShare(req, res)
+    req.session.folderData = {
+      share: downloadUrl
+    }
+    return res.redirect(req.header("Referer"))
   }
 
   return {
     addFile,
     deleteFile,
-    downloadFile
+    downloadFile,
+    shareFile
   }
 }
 
