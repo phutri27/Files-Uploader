@@ -19,8 +19,6 @@ function dashboardController(){
             user: req.user,
             errors: data.errors || [],  
             errMsg: data.errMsg || "",
-            errFileMsg: data.errFileMsg || "",
-            fileErr: data.fileErr || [],
             folders: folders,
             files: files,
             editId: editId,

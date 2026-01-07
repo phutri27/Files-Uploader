@@ -40,10 +40,9 @@ exports.validateFolder = [
     body("folder").trim()
     .notEmpty().withMessage(`Folder name ${emptyErr}`)
     .custom(async (value, {req}) => {
+        const id = req.params.idUpdate
         const folder = await folderObj.findTreeFolder(req.user.id, req.session.current.id, value)
-        const val = value
-        const r = req
-        if (folder){
+        if (folder && folder.id != id){
             throw new Error("Folder name has been taken")
         }
         return true

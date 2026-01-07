@@ -42,8 +42,8 @@ function fileController(){
       if (!errors.isEmpty()){
         req.session.folderData = {
           status: 400,
-          fileErr: errors.array(),
-          errFileMsg: "File"
+          errors: errors.array(),
+          errMsg: "File"
         }
         return res.redirect(req.header("Referer"))
       }

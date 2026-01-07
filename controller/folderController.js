@@ -33,10 +33,8 @@ function folderController(){
                 folderpath: originalUrl[0],
                 exactPath: url,
                 errors: data.errors || [],
-                errMsg: "Folder",
-                errFileMsg: data.errFileMsg || "",
+                errMsg: data.errMsg || "",
                 folders: folders,
-                fileErr: data.fileErr || [],
                 files: files,
                 editId: editId,
                 share: data.share || null

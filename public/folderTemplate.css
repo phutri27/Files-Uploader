@@ -2,3 +2,333 @@
     display: grid;
     grid-template-columns: 1fr 3fr;
 }
+
+.inner-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.header{
+    background: rgba(240, 244, 249);
+    height: 7vh;
+    display: flex;
+    align-items: center;
+}
+
+.header form{
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+    margin-right: 20px;
+}
+
+.header form button,
+.header .action-btn{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.header .action-btn{
+    flex: 1;
+    margin-left: 20px;
+}
+
+.welcome{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+    margin-left: 15px;
+    font-weight: 600;
+}
+
+.createBtn-container{
+    min-height: 0;
+}
+
+.share-container{         
+    max-height: 20vh;  
+    overflow: auto;         
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    gap: 5px;
+}
+
+.share-link{
+    border: 2px solid rgb(215, 215, 215);
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+.copy-btn,
+.x-btn{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1rem;
+    background: transparent;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.copy-btn:hover,
+.x-btn:hover{
+    background: rgb(215, 215, 215);
+}
+
+.createBtn-div{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 10px;
+}
+
+.createBtn-div form .file-div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.createBtn-div hr{
+    color: gray;
+    border: 0.5px solid rgb(215, 215, 215);
+    width: 100%;
+    margin: 3px 3px;
+}
+
+
+.folder-btn,
+.createBtn-div form .file-div input,
+.createBtn-div form .file-div button{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    background: rgb(230, 229, 229);
+    border: none;
+    border-radius: 10px;
+    transition: all 0.15s;
+    cursor: pointer;
+}
+
+.folder-btn:hover,
+.createBtn-div form .file-div input:hover,
+.createBtn-div form .file-div button:hover{
+    background-color: rgb(165, 165, 165);
+}
+
+.path-div{
+    display: flex;
+}
+
+.path-div .action-btn,
+.delete-btn,
+.update-btn,
+.delete-btn-file,
+.download-btn,
+.share-btn{
+    background: transparent;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+}
+
+.path-div .action-btn:hover{
+    background: rgb(230, 230, 230);
+}
+
+.path-div{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.dash-div{
+    font-size: 1.3rem;
+}
+
+.folders-div,
+.files-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.folder-link{
+    display: flex;
+    border-radius: 15px;
+    background:rgba(240, 244, 249);
+    height: 40px;
+    align-items: center;
+    transition: all 0.15s;
+}
+
+.folder-link:hover,
+.action-btn-div .action-btn:hover{
+    background-color: rgba(227, 228, 227);
+}
+
+.folder-link .action-btn-div{
+    flex: 4;
+}
+
+.action-btn-div .action-btn{
+    background: transparent;
+    border: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    display: block;
+    text-align: left;
+    width: 100%;
+    
+}
+
+.folder-link svg{
+    flex: 1;
+}
+
+.folder-container{
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-function,
+.file-function{
+    display: none;
+    position: absolute;
+    right:0;
+    top: 40px;
+    z-index: 2;
+    width: 100%;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 5px;
+    
+}
+
+.dropdown-function hr{
+    margin: 0px;
+}
+
+.delete-form-file,
+.update-form,
+.download-form,
+.share-form{
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.delete-form-file:hover,
+.update-form:hover,
+.download-form:hover,
+.share-form:hover{
+    background-color: rgba(227, 228, 227);;
+}
+
+.delete-btn,
+.update-btn,
+.delete-btn-file,
+.download-btn,
+.share-btn{
+    display: block;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.three-dot path{
+    pointer-events: none;
+}
+
+.show{
+    display: block; 
+}
+
+.file-container{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 20px;
+    position: relative;
+    height: 300px;
+    display: inline-block;
+}
+
+.file-info{
+    background:rgba(240, 244, 249);
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.file-name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.file-name div{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-size{
+    position: relative;
+    flex: 5;
+}
+
+.file-size div{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    top: 0px;
+    background: white;
+    border-radius: 8px;
+}
+
+#folder{
+    border-radius: 7px;
+    padding: 5px 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.edit-btn,
+.cancel-btn,
+.folder-dialog-form button{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: none;
+    border-radius: 3px;
+    background: transparent;
+    font-weight: 500;
+    transition: all 0.15s;
+}
+
+.edit-btn:hover,
+.cancel-btn:hover,
+.folder-dialog-form button:hover
+{
+    background:  rgb(186, 186, 186);
+}
+
+.folder-dialog-form{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.list-err{
+    list-style-type: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+}
