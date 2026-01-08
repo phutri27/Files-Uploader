@@ -7,7 +7,7 @@ const {redirectLogin} = require('../utils/isAuth')
 router.get("/", redirectLogin, indexController().indexGet)
 
 router.get("/login", redirectLogin, loginController().loginGet)
-router.post("/login", loginController().loginPost, passport.authenticate('local', {failureRedirect: "/login", successRedirect: "/dashboard", failureFlash:true, failureMessage:true}))
+router.post("/login", loginController().loginPost, passport.authenticate('local', {failureRedirect: "/login", successRedirect: "/dashboard"}))
 
 router.get("/signup", redirectLogin, signupController().signupGet)
 router.post("/signup", signupController().signupPost)

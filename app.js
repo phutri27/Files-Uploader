@@ -7,7 +7,6 @@ const prisma = require('./lib/prisma')
 const assetsPath = path.join(__dirname, "public")
 const index = require('./routes/index')
 const dashboardRoute = require('./routes/dashboardRoute')
-const flash = require('connect-flash')
 const {isAuth, redirectLogin} = require('./utils/isAuth')
 
 require('dotenv').config()
@@ -18,7 +17,7 @@ app.use(express.static(assetsPath));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
@@ -39,7 +38,6 @@ app.use(
   })
 );
 
-app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session()) 
 
