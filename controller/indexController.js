@@ -23,8 +23,8 @@ function loginController() {
         }
         const errMsg = req.session.messages?.[0]
         const loginData = req.session.loginData || {}
-        res.render("login", {
-            errors: errMsg || null,
+        res.status(loginData.status || 200).render("login", {
+            errors: errMsg || [],
             un: loginData.username || "",
             pww: loginData.password || ""
         })
@@ -34,6 +34,7 @@ function loginController() {
 
     const loginPost = (req, res, next) => {
         req.session.loginData = {
+            status: 400,
             username: req.body.uname,
             password: req.body.pw
         }
